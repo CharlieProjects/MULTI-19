@@ -57,3 +57,17 @@ void illumination(byte L1, byte L2, byte S1, byte S2)
     digitalWrite(L1, digitalRead(S1));
     digitalWrite(L2, digitalRead(S2));
 }
+
+void click(){}
+void doubleclick(){}
+void longPressStart(){}
+void longPressStop(){}
+void longPress(){}
+
+void OneButtonBegin(){
+  button1.attachClick(click);
+  button1.attachDoubleClick(doubleclick);
+  button1.attachLongPressStart(longPressStart);
+  button1.attachLongPressStop(longPressStop);
+  button1.attachDuringLongPress(longPress);
+}

@@ -35,8 +35,7 @@
 
 #include <Conveyor.h>
 
-
-void  setup()
+void setup()
 {
   display.init();
   displayStart();
@@ -45,7 +44,7 @@ void  setup()
   Serial.println();
   Serial.println("...Set Up...");
 
-  OneButtonini();
+  OneButtonBegin();
 }
 
 void loop()
