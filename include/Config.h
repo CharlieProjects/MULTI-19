@@ -1,9 +1,54 @@
-// INCLUDE
+/* ==============================================================================
+ * Script by: Juan Carlos Botero 
+ * Date: 08/08/2020
+ * Version: 2.0.0
+ * ==============================================================================
+ *                      Copyright (c) 2020 Charlie Projects                      
+ *                      github.com/CharlieProjects/MULTI-19                      
+ * ==============================================================================
+ * =========================  CONVEYOR MULTI-19 CONFIG  =========================
+ * ========================   Multiplo Colombia S.A.S.  =========================
+ * ==============================================================================
+ *  MIT License
+ *
+ * Copyright (c) 2020 CHARLIE PROJECTS
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
+// =============== INCLUDE ====================
+#include <Arduino.h>
+#include <Display.h>
 
+#include <SPI.h>
+#include <LoRa.h>
 
+#include <ESP8266WiFi.h>
+#include <Wire.h>
+#include <EEPROM.h>
 
-// INPUT
+extern "C"
+{
+#include "user_interface.h"
+}
+
+// ================ INPUTS =====================
 #define START           11
 #define STOP            12
 #define SwFWR           13
@@ -24,7 +69,7 @@
 #define Sw4             27
 #define charger         28
 
-// OUTPUT
+// ================== OUTPUTS ==================
 #define Beacon           1
 #define Reflector        2 
 #define UP               3
@@ -36,8 +81,11 @@
 #define generalState1    9
 #define generalState2   10
 
-// OTHER VARIABLES 
-#define ON HIGH
-#define OFF LOW
+// ============= OTHER VARIABLES ==============
+#define STAND_BY         1
+#define OPERATION        2
+#define CHARGING         3
+#define E_STOP           4
+byte state = STAND_BY;
 
-/*===== SETTINGS =====*/
+// =============== SETTINGS ===================
