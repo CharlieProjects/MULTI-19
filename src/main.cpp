@@ -9,7 +9,18 @@
  * ========================      CONVEYOR MULTI-19      =========================
  * ========================   Multiplo Colombia S.A.S.  =========================
  * ==============================================================================
+ *  Description:
+ *  This is the main code of the control structure of the conveyor MULTI-19 is 
+ *  intend to be compiled whit Visual Studio Code using the Platformio plug, this
+ *  code works by itself, including all the external libraries in the project path
+ *  in the "lib" folder as well as the auxiliary functions and reusable resources
+ *  in the "include" folder.
  * 
+ *  The proposed programming architecture is based on object-oriented finite state 
+ *  machines the architecture documentation can be found attached to the project 
+ *  path, otherwise request directly from Charlie projects.
+ * 
+ * ==============================================================================
  *  MIT License
  *
  * Copyright (c) 2020 CHARLIE PROJECTS
@@ -37,12 +48,12 @@
 
 void setup()
 {
-  display.init();
-  displayStart();
-
   Serial.begin(115200);
   Serial.println();
   Serial.println("...Set Up...");
+
+  display.init();
+  displayStart();
 
   OneButtonBegin();
 }
@@ -52,7 +63,7 @@ void loop()
   switch (state)
   {
   case STAND_BY:
-
+    //define stand by functionality
     state = digitalRead(START) ? OPERATION : STAND_BY;
     break;
   case OPERATION:
@@ -61,6 +72,7 @@ void loop()
     breaks();
     batteryCheck();
     illumination(Beacon, Reflector, SwBeacon, SwReflector);
+    dataLog();
 
     state = digitalRead(STOP) ? E_STOP : !digitalRead(START) ? STAND_BY : OPERATION;
     break;
@@ -74,7 +86,7 @@ void loop()
     digitalWrite(RWD, LOW);
     digitalWrite(UP, LOW);
     digitalWrite(DOWN, LOW);
-
+    dataLog();
     state = !(digitalRead(START) && digitalRead(STOP)) ? STAND_BY : E_STOP;
     break;
   }
