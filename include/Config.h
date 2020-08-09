@@ -36,12 +36,13 @@
 #include <Arduino.h>
 #include <Display.h>
 
-#include <SPI.h>
-#include <LoRa.h>
-
-#include <ESP8266WiFi.h>
 #include <Wire.h>
 #include <EEPROM.h>
+#include <SPI.h>
+
+#include <OneButton.h>
+#include <LoRa.h>
+#include <ESP8266WiFi.h>
 
 extern "C"
 {
@@ -88,4 +89,25 @@ extern "C"
 #define E_STOP           4
 byte state = STAND_BY;
 
+const long frequency = 915E6;  // LoRa Frequency
+const int csPin = 10;          // LoRa radio chip select
+const int resetPin = 9;        // LoRa radio reset
+const int irqPin = 2;          // Must be a hardware interrupt pin
+
+
 // =============== SETTINGS ===================
+OneButton button1(SwStop, true);
+
+void click(){}
+void doubleclick(){}
+void longPressStart(){}
+void longPressStop(){}
+void longPress(){}
+
+void OneButtonini(){
+  button1.attachClick(click);
+  button1.attachDoubleClick(doubleclick);
+  button1.attachLongPressStart(longPressStart);
+  button1.attachLongPressStop(longPressStop);
+  button1.attachDuringLongPress(longPress);
+}
