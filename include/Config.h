@@ -51,6 +51,11 @@ extern "C"
 #include "user_interface.h"
 }
 
+// =============== CODE VERSION =================================================
+#define version "2.0.0"
+#define update "09-08-2020"
+#define ID "XXXX001MULTI19"
+
 // ================ INPUTS ======================================================
 #define START           11 // Must be a hardware interrupt pin
 #define STOP            12 // Must be a hardware interrupt pin
@@ -97,4 +102,6 @@ const int resetPin = 9;        // LoRa radio reset
 const int irqPin = 2;          // Must be a hardware interrupt pin
 
 // =============== SETTINGS =====================================================
+byte INPUTS []={START, STOP, SwFWR, SwRWD, SwUP, SwDOWN, SwLimit, SwBeacon, SwReflector, Shunt, Temp, Hum, GPS, Sw1, Sw2, Sw3, Sw4, charger};
+byte OUTPUTS[]={Beacon, Reflector, UP, DOWN, FWR, RWD, batTeryState1, batteryState2, generalState1, generalState2};
 OneButton button1(SwStop, true);

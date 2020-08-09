@@ -63,7 +63,7 @@ void loop()
   switch (state)
   {
   case STAND_BY:
-    //define stand by functionality
+    //define stand by functionality.
     state = digitalRead(START) ? OPERATION : STAND_BY;
     break;
   case OPERATION:
