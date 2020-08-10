@@ -42,7 +42,7 @@ SH1106  display(0x3c, 5, 4); // display(Adr, SDA, SCL)   GPIO 5 = D1, GPIO 4 = D
 #define flipDisplay false
 
 // ================================= FUNCIONES ==================================
-void displayStart(){
+void displayBegin(){
   if (flipDisplay)
     display.flipScreenVertically();
 

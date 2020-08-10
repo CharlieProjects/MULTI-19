@@ -49,13 +49,12 @@
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
   Serial.println();
   Serial.println("...Set Up...");
-
   display.init();
-  displayStart();
-
-  OneButtonBegin();
+  displayBegin();
+  ConveyorBegin();
 }
 
 void loop()

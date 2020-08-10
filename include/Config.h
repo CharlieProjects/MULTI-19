@@ -102,6 +102,6 @@ const int resetPin = 9;        // LoRa radio reset
 const int irqPin = 2;          // Must be a hardware interrupt pin
 
 // =============== SETTINGS =====================================================
-byte INPUTS []={START, STOP, SwFWR, SwRWD, SwUP, SwDOWN, SwLimit, SwBeacon, SwReflector, Shunt, Temp, Hum, GPS, Sw1, Sw2, Sw3, Sw4, charger};
-byte OUTPUTS[]={Beacon, Reflector, UP, DOWN, FWR, RWD, batTeryState1, batteryState2, generalState1, generalState2};
+byte DIGITAL_INPUTS []={START, STOP, SwFWR, SwRWD, SwUP, SwDOWN, SwLimit, SwBeacon, SwReflector, Sw1, Sw2, Sw3, Sw4, charger};
+byte DIGITAL_OUTPUTS[]={Beacon, Reflector, UP, DOWN, FWR, RWD, batTeryState1, batteryState2, generalState1, generalState2};
 OneButton button1(SwStop, true);
