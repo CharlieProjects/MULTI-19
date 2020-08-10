@@ -66,7 +66,7 @@ void loop()
     state = digitalRead(START) ? OPERATION : STAND_BY;
     break;
   case OPERATION:
-    conveyor(true, 10);
+    conveyor();
     elevation();
     breaks();
     batteryCheck();

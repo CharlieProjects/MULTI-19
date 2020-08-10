@@ -57,8 +57,8 @@ extern "C"
 #define ID "XXXX001MULTI19"
 
 // ================ INPUTS ======================================================
-#define START           11 // Must be a hardware interrupt pin
-#define STOP            12 // Must be a hardware interrupt pin
+#define START           11 // START selector,  (Must be a hardware interrupt pin)
+#define STOP            12 // STOP button,     (Must be a hardware interrupt pin)
 #define SwFWR           13 // Forward switch
 #define SwRWD           14 // Rewind switch
 #define SwStop          15 // Band stop switch
@@ -99,7 +99,7 @@ byte state = STAND_BY;
 const long frequency = 915E6;  // LoRa Frequency
 const int csPin = 10;          // LoRa radio chip select
 const int resetPin = 9;        // LoRa radio reset
-const int irqPin = 2;          // Must be a hardware interrupt pin
+const int irqPin = 2;          // (Must be a hardware interrupt pin)
 
 // =============== SETTINGS =====================================================
 byte DIGITAL_INPUTS []={START, STOP, SwFWR, SwRWD, SwUP, SwDOWN, SwLimit, SwBeacon, SwReflector, Sw1, Sw2, Sw3, Sw4, charger};
