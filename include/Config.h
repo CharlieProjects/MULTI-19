@@ -40,7 +40,7 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
-
+ 
 // #include <RTClib.h>
 #include <OneButton.h>
 #include <LoRa.h>
@@ -61,7 +61,7 @@ extern "C"
 #define STOP            12 // STOP button,     (Must be a hardware interrupt pin)
 #define SwFWR           13 // Forward switch
 #define SwRWD           14 // Rewind switch
-#define SwStop          15 // Band stop switch
+#define SwStop          15 // Band stop switch 
 #define SwUP            16 // Up switch
 #define SwDOWN          17 // Down switch
 #define SwLimit         18 // Limit end switch

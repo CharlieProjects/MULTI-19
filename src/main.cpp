@@ -86,6 +86,7 @@ void loop()
     digitalWrite(UP, LOW);
     digitalWrite(DOWN, LOW);
     dataLog();
+    
     state = !(digitalRead(START) && digitalRead(STOP)) ? STAND_BY : E_STOP;
     break;
   }
