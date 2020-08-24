@@ -23,7 +23,7 @@
 class GoldenMotor
 {
 public:
-    void GoldenMotor(byte S1, byte S2, byte S3);
+    void GoldenMotor(byte throttle, byte brake, byte highBrake, byte reverse, byte speedCruise);
     void begin();
     void test();
 private:

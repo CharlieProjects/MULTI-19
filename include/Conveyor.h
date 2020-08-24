@@ -35,7 +35,6 @@
 #include <Config.h>
 
 // ================================= FUNCIONES ==================================
-void conveyor() {}
 void batteryCheck() {}
 void breaks() {}
 void elevation() {}

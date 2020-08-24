@@ -45,6 +45,7 @@
 #include <OneButton.h>
 #include <LoRa.h>
 #include <ESP8266WiFi.h>
+#include <GoldenMotor.h>
 
 extern "C"
 {

@@ -13,9 +13,13 @@
 
 #include <GoldenMotor.h>
 
-GoldenMotor::GoldenMotor(byte S1, byte S2, byte S3)
+GoldenMotor::GoldenMotor(byte throttle, byte brake, byte highBrake, byte reverse, byte speedCruise)
 {
-    _S1 = S1, _S2 = S2, _S3 = S3;
+    _throttle    = throttle;
+    _brake       = brake;
+    _highBrake   = highBrake;
+    _reverse     = reverse;
+    _speedCruise = speedCruise;
 }
 
 GoldenMotor::begin()
