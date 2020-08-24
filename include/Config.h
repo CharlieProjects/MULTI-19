@@ -59,43 +59,45 @@ extern "C"
 // ================ INPUTS ======================================================
 #define START           11 // START selector,  (Must be a hardware interrupt pin)
 #define STOP            12 // STOP button,     (Must be a hardware interrupt pin)
-#define SwFWR           13 // Forward switch
-#define SwRWD           14 // Rewind switch
-#define SwStop          15 // Band stop switch 
-#define SwUP            16 // Up switch
-#define SwDOWN          17 // Down switch
-#define SwLimit         18 // Limit end switch
-#define SwBeacon        19 // Beacon light switch   
-#define SwReflector     20 // Reflector light switch
-#define Shunt           A0 // Shunt sensor 
-#define Temp            A1 // Temp sensor
-#define Hum             A2 // Hum sensor 
-#define GPS             23 // GPS module signal
-#define Sw1             24 // Aux switch
-#define Sw2             25 // Aux switch
-#define Sw3             26 // Aux switch
-#define Sw4             27 // Aux switch
-#define charger         28 // Must be a hardware interrupt pin
+#define SwFWR           13 // Forward switch input pin 
+#define SwRWD           14 // Rewind switch input pin
+#define SwStop          15 // Band stop switch input pin 
+#define SwUP            16 // Up switch input pin
+#define SwDOWN          17 // Down switch input pin
+#define SwLimit         18 // Limit end switch input pin
+#define SwBeacon        19 // Beacon light switch input pin
+#define SwReflector     20 // Reflector light switch input pin
+#define shunt           A0 // Shunt sensor input pin
+#define temp            A1 // Temp sensor input pin
+#define hum             A2 // Hum sensor input pin
+#define GPS             23 // GPS module signal input pin
+#define Sw1             24 // Aux switch input pin
+#define Sw2             25 // Aux switch input pin
+#define Sw3             26 // Aux switch input pin
+#define Sw4             27 // Aux switch input pin
+#define charger         28 // Charger input pin (Must be a hardware interrupt pin)
 
 // ================== OUTPUTS ===================================================
-#define Beacon           1 // Beacon light
-#define Reflector        2 // Reflector light
-#define UP               3 // Up 
-#define DOWN             4 // Down
-#define FWR              5 // Forward
-#define RWD              6 // Rewind
-#define batTeryState1    7 // Battery indicator color 1
-#define batteryState2    8 // Battery indicator color 2
-#define generalState1    9 // General state color 1
-#define generalState2   10 // General state color 2
+#define Beacon           1 // Beacon light output pin
+#define Reflector        2 // Reflector light output pin
+#define UP               3 // Up output pin
+#define DOWN             4 // Down output pin
+#define FWR              5 // Forward output pin
+#define RWD              6 // Rewind output pin
+#define bandPWM          7 // band speed output pin 
+#define batTeryState1    7 // Battery indicator color 1 output pin 
+#define batteryState2    8 // Battery indicator color 2 output pin
+#define generalState1    9 // General state color 1 output pin
+#define generalState2   10 // General state color 2 output pin
 
-// ============= OTHER VARIABLES ================================================
-#define STAND_BY         1  // main FSM state 1
-#define OPERATION        2  // main FSM state 2
-#define CHARGING         3  // main FSM state 3
-#define E_STOP           4  // main FSM state 4
+// ================== STATES ====================================================
+#define STAND_BY         0x00  // main FSM state 1
+#define OPERATION        0x01  // main FSM state 2
+#define CHARGING         0x02  // main FSM state 3
+#define E_STOP           0x03  // main FSM state 4
 byte state = STAND_BY;
 
+// ============= OTHER VARIABLES ================================================
 const long frequency = 915E6;  // LoRa Frequency
 const int csPin = 10;          // LoRa radio chip select
 const int resetPin = 9;        // LoRa radio reset
