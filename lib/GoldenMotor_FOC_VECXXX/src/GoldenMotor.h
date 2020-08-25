@@ -23,9 +23,9 @@
 class GoldenMotor
 {
 public:
-    void GoldenMotor(byte throttle, byte brake, byte highBrake, byte reverse, byte speedCruise);
-    void begin();
-    void test();
+    // void GoldenMotor(byte throttle, byte brake, byte highBrake, byte reverse, byte speedCruise);
+    // void begin();
+    // void test();
 private:
 };
 #endif

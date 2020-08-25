@@ -35,13 +35,77 @@
 #include <Config.h>
 
 // ================================= FUNCIONES ==================================
-void batteryCheck() {}
-void breaks() {}
-void elevation() {}
-void illumination(byte L1, byte L2, byte S1, byte S2)
+void dualWrite(byte pin1, byte pin2, byte S1, byte S2)
 {
-  digitalWrite(L1, digitalRead(S1));
-  digitalWrite(L2, digitalRead(S2));
+  digitalWrite(pin1, S1);
+  digitalWrite(pin2, S2);
+}
+
+byte batteryCheck()
+{
+  float BC = analogRead(shunt);
+  byte BCP = map(BC, 100, 1023, 0, 100); // Configure Shunt ranges or implementa a diferent eq if necesary.
+  switch (BCP)
+  {
+  case 0 ... 25:
+if(millis()-oldMillis>=blinkInterval)
+    dualWrite(batteryState1, batteryState2, LOW, HIGH);
+    
+    break;
+  case 26 ... 50:
+    dualWrite(batteryState1, batteryState2, LOW, HIGH);
+    break;
+  case 51 ... 75:
+    dualWrite(batteryState1, batteryState2, HIGH, LOW);
+    break;
+  case 76 ... 100:
+    dualWrite(batteryState1, batteryState2, LOW, LOW);
+    break;
+  }
+  return BCP;
+}
+
+void brakes()
+{
+  switch (brakesState)
+  {
+  case 0: //OFF
+    brakesState = 0;
+    break;
+  case 1: // ON
+    brakesState = 0;
+    break;
+  default:
+    brakesState = 0;
+    break;
+  }
+}
+
+void elevation()
+{
+  switch (elevationState)
+  {
+  case 0: //STAND_BY
+    dualWrite(UP, DOWN, LOW, LOW);
+    elevationState = digitalRead(SwUP) ? 1 : digitalRead(SwDOWN) ? 2 : 0;
+    break;
+  case 1: //UP
+    dualWrite(UP, DOWN, HIGH, LOW);
+    elevationState = (digitalRead(SwLimit) || !digitalRead(SwUP)) ? 0 : 1;
+    break;
+  case 2: //DOWN
+    dualWrite(UP, DOWN, LOW, HIGH);
+    elevationState = (digitalRead(SwLimit) || !digitalRead(SwDOWN)) ? 0 : 2;
+    break;
+  default:
+    elevationState = 0;
+    break;
+  }
+}
+
+void illumination()
+{
+  dualWrite(Beacon, Reflector, digitalRead(SwBeacon), digitalRead(SwReflector));
 }
 
 void dataLog() {}

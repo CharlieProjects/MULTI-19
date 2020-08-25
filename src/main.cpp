@@ -43,17 +43,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+// #include <Config.h>
 
 #include <Conveyor.h>
+char incomingByte=0;
 
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial)
+    ;
   Serial.println();
+  Serial.println("========== CHARLIE PROJECT ==========");
+  Serial.println("projectsbycharlie.com");
   Serial.println("...Set Up...");
-  display.init();
-  displayBegin();
+
+  // display.init();
+  // displayBegin();
   ConveyorBegin();
 }
 
@@ -62,14 +68,17 @@ void loop()
   switch (state)
   {
   case STAND_BY:
-    //define stand by functionality.
+    brakes();
+    batteryCheck();
+    dataLog();
+
     state = digitalRead(START) ? OPERATION : STAND_BY;
     break;
   case OPERATION:
     elevation();
-    breaks();
+    brakes();
     batteryCheck();
-    illumination(Beacon, Reflector, SwBeacon, SwReflector);
+    illumination();
     dataLog();
 
     state = digitalRead(STOP) ? E_STOP : !digitalRead(START) ? STAND_BY : OPERATION;
@@ -85,8 +94,27 @@ void loop()
     digitalWrite(UP, LOW);
     digitalWrite(DOWN, LOW);
     dataLog();
-    
-    state = !(digitalRead(START) && digitalRead(STOP)) ? STAND_BY : E_STOP;
+
+    state = (!digitalRead(START) && !digitalRead(STOP)) ? STAND_BY : E_STOP;
     break;
+  default:
+    Serial.println("Undefined state");
+
+    state = STAND_BY;
+    break;
+  }
+
+  if (oldstate != state)
+  {
+    oldstate = state;
+    Serial.print("STATE: ");
+    Serial.println(state);
+  }
+
+  if (Serial.available() > 0)
+  {
+    incomingByte = Serial.read();
+    Serial.print("I received: ");
+    Serial.println(incomingByte, DEC);
   }
 }
