@@ -36,13 +36,13 @@
 #include <Arduino.h>
 // #include <Display.h>
 
-// #include <EEPROM.h>
-// #include <Wire.h>
-// #include <SPI.h>
-// #include <SD.h>
+#include <EEPROM.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
  
-// #include <RTClib.h>
-#include <OneButton.h>
+#include <RTClib.h>
+// #include <OneButton.h>
 // #include <LoRa.h>
 // #include <ESP8266WiFi.h>
 #include <GoldenMotor.h>
@@ -65,53 +65,53 @@ char ID[]= "XXXX001MULTI19";
 #define SwStop          39 // Band stop switch input pin 
 #define SwUP            33 // Up switch input pin
 #define SwDOWN          25 // Down switch input pin
-#define SwLimit         0 // Limit end switch input pin
-#define SwBeacon        0 // Beacon light switch input pin
-#define SwReflector     0 // Reflector light switch input pin
-#define shunt           0 // Shunt sensor input pin
-#define temp            0 // Temp sensor input pin
-#define hum             0 // Hum sensor input pin
-#define GPS             0 // GPS module signal input pin
-#define Sw1             0 // Aux switch input pin
-#define Sw2             0 // Aux switch input pin
-#define Sw3             0 // Aux switch input pin
-#define Sw4             0 // Aux switch input pin
-#define charger         0 // Charger input pin (Must be a hardware interrupt pin)
+#define SwLimit          0 // Limit end switch input pin
+#define SwBeacon         0 // Beacon light switch input pin
+#define SwReflector      0 // Reflector light switch input pin
+#define shunt            0 // Shunt sensor input pin
+#define temp             0 // Temp sensor input pin
+#define hum              0 // Hum sensor input pin
+#define GPS              0 // GPS module signal input pin
+#define Sw1              0 // Aux switch input pin
+#define Sw2              0 // Aux switch input pin
+#define Sw3              0 // Aux switch input pin
+#define Sw4              0 // Aux switch input pin
+#define charger          0 // Charger input pin (Must be a hardware interrupt pin)
 
 // ================== OUTPUTS ===================================================
-#define Beacon          0 // Beacon light output pin
-#define Reflector       0 // Reflector light output pin
-#define UP              2 // Up output pin
+#define Beacon           0 // Beacon light output pin
+#define Reflector        0 // Reflector light output pin
+#define UP               0 // Up output pin
 #define DOWN            15 // Down output pin
-#define FWR             0 // Forward output pin
-#define RWD             0 // Rewind output pin
-#define bandPWM         0 // band speed output pin 
-#define batteryState1   0 // Battery indicator color 1 output pin 
-#define batteryState2   0 // Battery indicator color 2 output pin
-#define generalState1   0 // General state color 1 output pin
-#define generalState2   0 // General state color 2 output pin
+#define FWR              0 // Forward output pin
+#define RWD              0 // Rewind output pin
+#define bandPWM          0 // band speed output pin 
+#define batteryState1    0 // Battery indicator color 1 output pin 
+#define batteryState2    2 // Battery indicator color 2 output pin
+#define generalState1    0 // General state color 1 output pin
+#define generalState2    0 // General state color 2 output pin
 
 // ================== STATES ====================================================
-#define STAND_BY         0  // main FSM state 1
-#define OPERATION        1  // main FSM state 2
-#define CHARGING         2  // main FSM state 3
-#define E_STOP           3  // main FSM state 4
+#define STAND_BY         0 // main FSM state 1
+#define OPERATION        1 // main FSM state 2
+#define CHARGING         2 // main FSM state 3
+#define E_STOP           3 // main FSM state 4
 byte state = STAND_BY;
-byte oldstate = -1;
+byte oldstate =         -1;
 
-byte elevationState = 0;
-byte brakesState = 0;
+byte elevationState =    0;
+byte brakesState =       0;
 
 // ============= OTHER VARIABLES ================================================
 const long frequency = 915E6;  // LoRa Frequency
-const int csPin = 10;          // LoRa radio chip select
-const int resetPin = 9;        // LoRa radio reset
-const int irqPin = 2;          // (Must be a hardware interrupt pin)
+const int csPin =       10;    // LoRa radio chip select
+const int resetPin =     9;    // LoRa radio reset
+const int irqPin =       2;    // (Must be a hardware interrupt pin)
 
-uintmax_t oldMillis = 0;
+uintmax_t oldMillis =    0;
 const int blinkInterval = 500;
 
 // =============== SETTINGS =====================================================
-byte DIGITAL_INPUTS[] = {START, STOP, SwFWR, SwRWD, SwStop}; //SwUP, SwDOWN, SwLimit, SwBeacon, SwReflector, Sw1, Sw2, Sw3, Sw4, charger
-byte DIGITAL_OUTPUTS[] = {UP, DOWN};//Beacon, Reflector, UP, DOWN, FWR, RWD, batTeryState1, batteryState2, generalState1, generalState2
-OneButton button1(SwStop, true);
+byte DIGITAL_INPUTS[] = {START, STOP, SwFWR, SwRWD, SwStop, SwUP, SwDOWN, SwLimit, SwBeacon, SwReflector, Sw1, Sw2, Sw3, Sw4, charger}; //
+byte DIGITAL_OUTPUTS[] = {Beacon, Reflector, UP, DOWN, FWR, RWD, batteryState1, batteryState2, generalState1, generalState2};//
+// OneButton button1(SwStop, true);

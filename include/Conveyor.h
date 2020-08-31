@@ -43,14 +43,16 @@ void dualWrite(byte pin1, byte pin2, byte S1, byte S2)
 
 byte batteryCheck()
 {
-  float BC = analogRead(shunt);
-  byte BCP = map(BC, 100, 1023, 0, 100); // Configure Shunt ranges or implementa a diferent eq if necesary.
+  byte BCP = map(analogRead(shunt), 100, 1023, 0, 100); // Configure Shunt ranges or implementa a diferent eq if necesary.
+
   switch (BCP)
   {
   case 0 ... 25:
-if(millis()-oldMillis>=blinkInterval)
-    dualWrite(batteryState1, batteryState2, LOW, HIGH);
-    
+    if (millis() - oldMillis >= blinkInterval)
+    {
+      dualWrite(batteryState1, batteryState2, LOW, !digitalRead(batteryState2));
+      oldMillis = millis();
+    }
     break;
   case 26 ... 50:
     dualWrite(batteryState1, batteryState2, LOW, HIGH);
@@ -110,20 +112,20 @@ void illumination()
 
 void dataLog() {}
 
-void click() {}
-void doubleclick() {}
-void longPressStart() {}
-void longPressStop() {}
-void longPress() {}
+// void click() {}
+// void doubleclick() {}
+// void longPressStart() {}
+// void longPressStop() {}
+// void longPress() {}
 
-void OneButtonBegin()
-{
-  button1.attachClick(click);
-  button1.attachDoubleClick(doubleclick);
-  button1.attachLongPressStart(longPressStart);
-  button1.attachLongPressStop(longPressStop);
-  button1.attachDuringLongPress(longPress);
-}
+// void OneButtonBegin()
+// {
+//   button1.attachClick(click);
+//   button1.attachDoubleClick(doubleclick);
+//   button1.attachLongPressStart(longPressStart);
+//   button1.attachLongPressStop(longPressStop);
+//   button1.attachDuringLongPress(longPress);
+// }
 
 void ConveyorBegin()
 {
@@ -136,5 +138,5 @@ void ConveyorBegin()
     pinMode(DIGITAL_OUTPUTS[i], OUTPUT);
     digitalWrite(DIGITAL_OUTPUTS[i], LOW);
   }
-  OneButtonBegin();
+  // OneButtonBegin();
 }

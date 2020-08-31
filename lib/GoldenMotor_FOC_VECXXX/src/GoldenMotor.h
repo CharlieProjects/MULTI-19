@@ -20,12 +20,32 @@
 #include "WProgram.h"
 #endif
 
+/**************************************************************************/
+/*!
+    @brief  Simple general-purpose date/time class (no TZ / DST / leap
+            seconds).
+
+    This class stores date and time information in a broken-down form, as a
+    tuple (year, month, day, hour, minute, second). The day of the week is
+    not stored, but computed on request. The class has no notion of time
+    zones, daylight saving time, or
+    [leap seconds](http://en.wikipedia.org/wiki/Leap_second): time is stored
+    in whatever time zone the user chooses to use.
+
+    The class supports dates in the range from 1 Jan 2000 to 31 Dec 2099
+    inclusive.
+*/
+/**************************************************************************/
 class GoldenMotor
 {
 public:
     // void GoldenMotor(byte throttle, byte brake, byte highBrake, byte reverse, byte speedCruise);
     // void begin();
+    
+
+    /*! @brief  Test for the lib compatibility.*/
     // void test();
+
 private:
 };
 #endif

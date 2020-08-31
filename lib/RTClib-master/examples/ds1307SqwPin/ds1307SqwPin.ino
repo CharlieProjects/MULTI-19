@@ -36,16 +36,15 @@ void print_mode() {
 }
 
 void setup () {
-  Serial.begin(57600);
 
 #ifndef ESP8266
-  while (!Serial); // wait for serial port to connect. Needed for native USB
+  while (!Serial); // for Leonardo/Micro/Zero
 #endif
 
+  Serial.begin(57600);
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
-    Serial.flush();
-    abort();
+    while (1);
   }
 
   print_mode();
