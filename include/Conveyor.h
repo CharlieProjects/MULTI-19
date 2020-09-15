@@ -48,10 +48,10 @@ byte batteryCheck()
   switch (BCP)
   {
   case 0 ... 25:
-    if (millis() - oldMillis >= blinkInterval)
+    if (millis() - blinkMillis >= blinkInterval)
     {
       dualWrite(batteryState1, batteryState2, LOW, !digitalRead(batteryState2));
-      oldMillis = millis();
+      blinkMillis = millis();
     }
     break;
   case 26 ... 50:
@@ -88,16 +88,16 @@ void elevation()
   switch (elevationState)
   {
   case 0: //STAND_BY
-    dualWrite(UP, DOWN, LOW, LOW);
-    elevationState = digitalRead(SwUP) ? 1 : digitalRead(SwDOWN) ? 2 : 0;
+    dualWrite(up, down, LOW, LOW);
+    elevationState = digitalRead(swUp) ? 1 : digitalRead(swDown) ? 2 : 0;
     break;
   case 1: //UP
-    dualWrite(UP, DOWN, HIGH, LOW);
-    elevationState = (digitalRead(SwLimit) || !digitalRead(SwUP)) ? 0 : 1;
+    dualWrite(up, down, HIGH, LOW);
+    elevationState = (digitalRead(limitUp) || !digitalRead(swUp)) ? 0 : 1;
     break;
   case 2: //DOWN
-    dualWrite(UP, DOWN, LOW, HIGH);
-    elevationState = (digitalRead(SwLimit) || !digitalRead(SwDOWN)) ? 0 : 2;
+    dualWrite(up, down, LOW, HIGH);
+    elevationState = (digitalRead(limitDown) || !digitalRead(swDown)) ? 0 : 2;
     break;
   default:
     elevationState = 0;
@@ -107,7 +107,7 @@ void elevation()
 
 void illumination()
 {
-  dualWrite(Beacon, Reflector, digitalRead(SwBeacon), digitalRead(SwReflector));
+  dualWrite(beacon, reflector, digitalRead(swBeacon), digitalRead(swReflector));
 }
 
 void dataLog() {}

@@ -46,7 +46,7 @@
 // #include <Config.h>
 
 #include <Conveyor.h>
-char incomingByte=0;
+char incomingByte = 0;
 
 void setup()
 {
@@ -68,31 +68,36 @@ void loop()
   switch (state)
   {
   case STAND_BY:
+    digitalWrite(POWER, LOW);
     brakes();
     batteryCheck();
     dataLog();
 
-    state = digitalRead(START) ? OPERATION : STAND_BY;
+    state = (digitalRead(START) && !digitalRead(STOP) && !waitMillis) ? OPERATION : STAND_BY;
+    waitMillis = (state == OPERATION) ? millis() : !digitalRead(START) ? 0 : waitMillis;
     break;
   case OPERATION:
+    digitalWrite(POWER, HIGH);
     elevation();
     brakes();
     batteryCheck();
     illumination();
     dataLog();
 
-    state = digitalRead(STOP) ? E_STOP : !digitalRead(START) ? STAND_BY : OPERATION;
+    state = digitalRead(STOP) ? E_STOP : (!digitalRead(START) || (millis() - waitMillis > waitTime)) ? STAND_BY : OPERATION;
     break;
   case CHARGING:
+    digitalWrite(POWER, LOW);
     batteryCheck();
 
     state = !digitalRead(charger) ? STAND_BY : CHARGING;
     break;
   case E_STOP:
+    digitalWrite(POWER, LOW);
     digitalWrite(FWR, LOW);
     digitalWrite(RWD, LOW);
-    digitalWrite(UP, LOW);
-    digitalWrite(DOWN, LOW);
+    digitalWrite(up, LOW);
+    digitalWrite(down, LOW);
     dataLog();
 
     state = (!digitalRead(START) && !digitalRead(STOP)) ? STAND_BY : E_STOP;
