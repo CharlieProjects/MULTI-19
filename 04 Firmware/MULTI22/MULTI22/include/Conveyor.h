@@ -1,10 +1,10 @@
 /* ==============================================================================
- * Script by: Juan Carlos Botero 
+ * Script by: Juan Carlos Botero
  * Date: 08/08/2020
  * Version: 2.0.0
  * ==============================================================================
- *                      Copyright (c) 2020 Charlie Projects                      
- *                      github.com/CharlieProjects/MULTI-19                      
+ *                      Copyright (c) 2020 Charlie Projects
+ *                      github.com/CharlieProjects/MULTI-19
  * ==============================================================================
  * ======================== CONVEYOR MULTI-19 RESOURCES =========================
  * ========================   Multiplo Colombia S.A.S.  =========================
@@ -12,7 +12,7 @@
  *  MIT License
  *
  * Copyright (c) 2020 CHARLIE PROJECTS
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -32,7 +32,8 @@
  * SOFTWARE.
  */
 
-#include <Config.h>
+// #include <Config.h>
+#include <000 mainSetUp.h>
 
 // ================================= FUNCIONES ==================================
 void dualWrite(byte pin1, byte pin2, byte S1, byte S2)
@@ -41,27 +42,52 @@ void dualWrite(byte pin1, byte pin2, byte S1, byte S2)
   digitalWrite(pin2, S2);
 }
 
+void ConveyorControl(float ref)
+{
+  float Tau = ts / 5;
+  float delta = 0.01;
+  u_apri = u_apos;
+  u_apos = (ref - u_apri) * delta / Tau + u_apri;
+  u_apri = u_apos;
+  if (u_apos < 0)
+  {
+    ReversState = true;
+    dacWrite(CSpeed_o, abs(ceil(-u_apos)));
+  }
+  else
+  {
+    ReversState = false;
+    dacWrite(CSpeed_o, abs(ceil(u_apos)));
+  }
+  digitalWrite(CReverse_o, ReversState);
+  delay(delta * 1000);
+}
+
+void Coveyor()
+{
+}
+
 byte batteryCheck()
 {
-  byte BCP = map(analogRead(shunt), 100, 1023, 0, 100); // Configure Shunt ranges or implementa a diferent eq if necesary.
+  byte BCP = map(analogRead(shunt_i), 100, 1023, 0, 100); // Configure Shunt ranges or implementa a diferent eq if necesary.
 
   switch (BCP)
   {
   case 0 ... 25:
     if (millis() - blinkMillis >= blinkInterval)
     {
-      dualWrite(batteryState1, batteryState2, LOW, !digitalRead(batteryState2));
+      dualWrite(batteryState1_o, batteryState2_o, LOW, !digitalRead(batteryState2_o));
       blinkMillis = millis();
     }
     break;
   case 26 ... 50:
-    dualWrite(batteryState1, batteryState2, LOW, HIGH);
+    dualWrite(batteryState1_o, batteryState2_o, LOW, HIGH);
     break;
   case 51 ... 75:
-    dualWrite(batteryState1, batteryState2, HIGH, LOW);
+    dualWrite(batteryState1_o, batteryState2_o, HIGH, LOW);
     break;
   case 76 ... 100:
-    dualWrite(batteryState1, batteryState2, LOW, LOW);
+    dualWrite(batteryState1_o, batteryState2_o, LOW, LOW);
     break;
   }
   return BCP;
@@ -71,7 +97,7 @@ void brakes()
 {
   switch (brakesState)
   {
-  case 0: //OFF
+  case 0: // OFF
     brakesState = 0;
     break;
   case 1: // ON
@@ -87,17 +113,18 @@ void elevation()
 {
   switch (elevationState)
   {
-  case 0: //STAND_BY
-    dualWrite(up, down, LOW, LOW);
-    elevationState = digitalRead(swUp) ? 1 : digitalRead(swDown) ? 2 : 0;
+  case 0: // STAND_BY
+    dualWrite(up_o, down_o, LOW, LOW);
+    elevationState = digitalRead(swUp_i) ? 1 : digitalRead(swDown_i) ? 2
+                                                                 : 0;
     break;
-  case 1: //UP
-    dualWrite(up, down, HIGH, LOW);
-    elevationState = (digitalRead(limitUp) || !digitalRead(swUp)) ? 0 : 1;
+  case 1: // UP
+    dualWrite(up_o, down_o, HIGH, LOW);
+    elevationState = (digitalRead(limitUp_i) || !digitalRead(swUp_i)) ? 0 : 1;
     break;
-  case 2: //DOWN
-    dualWrite(up, down, LOW, HIGH);
-    elevationState = (digitalRead(limitDown) || !digitalRead(swDown)) ? 0 : 2;
+  case 2: // DOWN
+    dualWrite(up_o, down_o, LOW, HIGH);
+    elevationState = (digitalRead(limitDown_i) || !digitalRead(swDown_i)) ? 0 : 2;
     break;
   default:
     elevationState = 0;
@@ -107,7 +134,7 @@ void elevation()
 
 void illumination()
 {
-  dualWrite(beacon, reflector, digitalRead(swBeacon), digitalRead(swReflector));
+  dualWrite(beacon_o, reflector_o, digitalRead(swBeacon_i), digitalRead(swReflector_i));
 }
 
 void dataLog() {}
@@ -131,7 +158,7 @@ void ConveyorBegin()
 {
   for (byte i = 0; i < sizeof(DIGITAL_INPUTS); i++)
   {
-    pinMode(DIGITAL_INPUTS[i], INPUT);
+    pinMode(DIGITAL_INPUTS[i], INPUT_PULLDOWN);
   }
   for (byte i = 0; i < sizeof(DIGITAL_OUTPUTS); i++)
   {
@@ -139,4 +166,13 @@ void ConveyorBegin()
     digitalWrite(DIGITAL_OUTPUTS[i], LOW);
   }
   // OneButtonBegin();
+}
+
+void EMERGENCY_STOP()
+{
+  digitalWrite(power_o, LOW);
+  digitalWrite(FWR_o, LOW);
+  digitalWrite(RWD_o, LOW);
+  digitalWrite(up_o, LOW);
+  digitalWrite(down_o, LOW);
 }
